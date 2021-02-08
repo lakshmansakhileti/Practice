@@ -2,56 +2,38 @@ package com.divideandconquer;
 
 public class A_Good_String {
     public static void main(String[] args) {
-        String input = "ccde";
-        char c = 'c';
-       Boolean result =  isFirstHalfGoodString(c,input) ||
-        isSecondHalfGoodString(input.charAt(input.length()/2),input);
+        String input = "az";
+        char c = 'a';
+       int result =  solve(c, input);
 
         System.out.println("Is input  string  "+input +" is "+c+"- good string? "+ result);
     }
 
-    public static boolean isAgoodString(char c, String input) {
+    public static int solve(char c, String input) {
         if(input.length() == 1){
-            return c == input.charAt(0);
+             if(c == input.charAt(0)) {
+                 return 0;
+             }else {
+                 return 1;
+             }
         }
         int start = 0;
         int totalChars = input.length();
-       return isCString(c, input.substring(start, totalChars/2)) &&
-               isAgoodString((char)((int)c+1), input.substring(totalChars/2, totalChars));
-    }
 
-    public static boolean isFirstHalfGoodString(char c, String input) {
-        if(input.length() == 1){
-            return c == input.charAt(0);
-        }
-        int start = 0;
-        int totalChars = input.length();
-        return isCString(c, input.substring(start, totalChars/2)) &&
-                isAgoodString((char)((int)c+1), input.substring(totalChars/2, totalChars));
-    }
-
-    public static boolean isSecondHalfGoodString(char c, String input) {
-        if(input.length() == 1){
-            return c == input.charAt(0);
-        }
-        int start = 0;
-        int totalChars = input.length();
-        return isCString(c, input.substring(totalChars/2, totalChars)) &&
-                isAgoodString((char)((int)c+1), input.substring(start, totalChars/2));
+       return Math.min((getCost(c, input.substring(start, totalChars/2)) +
+               solve((char)((int)c+1), input.substring(totalChars/2, totalChars))),
+               (getCost(c, input.substring(totalChars/2, totalChars)) +
+                       solve((char)((int)c+1), input.substring(start, totalChars/2))));
     }
 
 
-    public static boolean isCString(char c, String input) {
-        if(input.length() == 1){
-            return c == input.charAt(0);
-        }
-        int start =0;
-        int end=input.length()-1;
-        for(int i=start, j=end; i<j; i++, j--) {
-            if(c != input.charAt(i) || c != input.charAt(j) ) {
-                return false;
+    public static int getCost(char inputChar, String input) {
+        int cost =0;
+        for (char c:input.toCharArray()) {
+            if(inputChar != c) {
+                cost++;
             }
         }
-        return  true;
+        return cost;
     }
 }
