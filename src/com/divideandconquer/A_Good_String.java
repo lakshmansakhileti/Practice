@@ -1,5 +1,5 @@
 package com.divideandconquer;
-
+/** Which checkes a string is a-good or not */
 public class A_Good_String {
     public static void main(String[] args) {
         String input = "az";
